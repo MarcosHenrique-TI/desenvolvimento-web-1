@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaturalVida - Produtos Naturais</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f9f7 0%, #e8f3ef 100%);
+            color: #2d5a4a;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2d8659 0%, #1e5a3d 100%);
+            padding: 20px 0;
+            box-shadow: 0 4px 15px rgba(45, 134, 89, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #a8e6c9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo::before {
+            content: "🌿";
+            font-size: 32px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #e8f3ef;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #a8e6c9;
+        }
+
+        .cart-icon {
+            color: #a8e6c9;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(45, 134, 89, 0.8) 0%, rgba(30, 90, 61, 0.8) 100%), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><path fill="%23a8e6c955" d="M0 300 Q300 200 600 300 T1200 300 L1200 600 L0 600 Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            background: #a8e6c9;
+            color: #1e5a3d;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(168, 230, 201, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 230, 201, 0.6);
+        }
+
+        .categories {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: white;
+            border: 2px solid #2d8659;
+            color: #2d8659;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(45, 134, 89, 0.1);
+        }
+
+        .tab-button:hover,
+        .tab-button.active {
+            background: #2d8659;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(45, 134, 89, 0.3);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(45, 134, 89, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(45, 134, 89, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #e8f3ef 0%, #d4e9e1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            overflow: hidden;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2d5a4a;
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            color: #5a8971;
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 24px;
+            color: #2d8659;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .product-footer {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-to-cart {
+            flex: 1;
+            background: #2d8659;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #1e5a3d;
+        }
+
+        .wishlist-btn {
+            width: 50px;
+            background: #a8e6c9;
+            color: #2d8659;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .wishlist-btn:hover {
+            background: #2d8659;
+            color: #a8e6c9;
+        }
+
+        .badge {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background: #1e5a3d;
+            color: #a8e6c9;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .rating {
+            color: #f39c12;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">NaturalVida</div>
+            <nav class="nav-links">
+                <a href="#home">Início</a>
+                <a href="#produtos">Produtos</a>
+                <a href="#sobre">Sobre</a>
+                <a href="#contato">Contato</a>
+            </nav>
+            <div class="cart-icon">🛒</div>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>Produtos 100% Naturais</h1>
+        <p>Cuide de você e do planeta com nossos produtos sustentáveis</p>
+        <button class="cta-button" onclick="document.getElementById('produtos').scrollIntoView({behavior: 'smooth'})">Explorar Produtos</button>
+    </section>
+
+    <section class="categories" id="produtos">
+        <div class="category-tabs">
+            <button class="tab-button active" onclick="filtrarProdutos('todos')">Todos</button>
+            <button class="tab-button" onclick="filtrarProdutos('alimentos')">Alimentos</button>
+            <button class="tab-button" onclick="filtrarProdutos('beleza')">Beleza & Cuidados</button>
+            <button class="tab-button" onclick="filtrarProdutos('suplementos')">Suplementos</button>
+            <button class="tab-button" onclick="filtrarProdutos('chás')">Chás & Bebidas</button>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- Produtos serão inseridos aqui via JavaScript -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 NaturalVida. Todos os direitos reservados. 🌿</p>
+        <p>Produtos 100% naturais e sustentáveis</p>
+    </footer>
+
+    <script>
+        const produtos = [
+            { id: 1, nome: 'Mel Puro Orgânico', categoria: 'alimentos', preco: 'R$ 28,90', emoji: '🍯', descricao: 'Mel 100% puro de abelhas selvagens', novo: true, rating: '⭐⭐⭐⭐⭐' },
+            { id: 2, nome: 'Azeite Extra Virgem', categoria: 'alimentos', preco: 'R$ 35,90', emoji: '🫒', descricao: 'Azeite premium de olivas selecionadas', novo: false, rating: '⭐⭐⭐⭐⭐' },
+            { id: 3, nome: 'Castanhas Mistas', categoria: 'alimentos', preco: 'R$ 42,90', emoji: '🥜', descricao: 'Mix de castanhas torradas naturais', novo: false, rating: '⭐⭐⭐⭐' },
+            { id: 4, nome: 'Óleo de Coco', categoria: 'alimentos', preco: 'R$ 32,90', emoji: '🥥', descricao: 'Óleo de coco virgem prensado a frio', novo: true, rating: '⭐⭐⭐⭐⭐' },
+            
+            { id: 5, nome: 'Creme Facial Natural', categoria: 'beleza', preco: 'R$ 55,90', emoji: '✨', descricao: 'Hidratante facial com ingredientes naturais', novo: true, rating: '⭐⭐⭐⭐' },
+            { id: 6, nome: 'Shampoo Orgânico', categoria: 'beleza', preco: 'R$ 38,90', emoji: '🌿', descricao: 'Shampoo natural para todos os tipos', novo: false, rating: '⭐⭐⭐⭐⭐' },
+            { id: 7, nome: 'Sabonete de Ervas', categoria: 'beleza', preco: 'R$ 18,90', emoji: '🧼', descricao: 'Sabonete feito com óleos essenciais', novo: false, rating: '⭐⭐⭐⭐' },
+            { id: 8, nome: 'Máscara Facial', categoria: 'beleza', preco: 'R$ 45,90', emoji: '🎭', descricao: 'Máscara detoxificante com barro verde', novo: true, rating: '⭐⭐⭐⭐⭐' },
+            
+            { id: 9, nome: 'Vitamina C Pura', categoria: 'suplementos', preco: 'R$ 65,90', emoji: '💊', descricao: 'Suplemento de vitamina C natural', novo: false, rating: '⭐⭐⭐⭐⭐' },
+            { id: 10, nome: 'Spirulina Orgânica', categoria: 'suplementos', preco: 'R$ 52,90', emoji: '🌊', descricao: 'Alga spirulina rica em proteínas', novo: true, rating: '⭐⭐⭐⭐' },
+            { id: 11, nome: 'Complexo B Natural', categoria: 'suplementos', preco: 'R$ 48,90', emoji: '⚡', descricao: 'Complexo de vitaminas B naturais', novo: false, rating: '⭐⭐⭐⭐' },
+            { id: 12, nome: 'Ômega 3 Vegano', categoria: 'suplementos', preco: 'R$ 58,90', emoji: '🐟', descricao: 'Ômega 3 de alga (vegano)', novo: true, rating: '⭐⭐⭐⭐⭐' },
+            
+            { id: 13, nome: 'Chá de Camomila', categoria: 'chás', preco: 'R$ 22,90', emoji: '🍵', descricao: 'Chá calmante natural em folhas', novo: false, rating: '⭐⭐⭐⭐' },
+            { id: 14, nome: 'Chá Verde Orgânico', categoria: 'chás', preco: 'R$ 25,90', emoji: '🍃', descricao: 'Chá verde detoxificante premium', novo: true, rating: '⭐⭐⭐⭐⭐' },
+            { id: 15, nome: 'Café Orgânico', categoria: 'chás', preco: 'R$ 32,90', emoji: '☕', descricao: 'Café arábica 100% orgânico', novo: false, rating: '⭐⭐⭐⭐⭐' },
+            { id: 16, nome: 'Chá Detox', categoria: 'chás', preco: 'R$ 28,90', emoji: '🌱', descricao: 'Blend detoxificante de 7 ervas', novo: true, rating: '⭐⭐⭐⭐' },
+        ];
+
+        let categoriaAtiva = 'todos';
+
+        function renderizarProdutos(produtos) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = produtos.map(produto => `
+                <div class="product-card">
+                    <div class="product-image">${produto.emoji}</div>
+                    <div class="product-info">
+                        ${produto.novo ? '<span class="badge">NOVO</span>' : ''}
+                        <div class="rating">${produto.rating}</div>
+                        <div class="product-name">${produto.nome}</div>
+                        <div class="product-description">${produto.descricao}</div>
+                        <div class="product-price">${produto.preco}</div>
+                        <div class="product-footer">
+                            <button class="add-to-cart" onclick="adicionarCarrinho('${produto.nome}')">Adicionar</button>
+                            <button class="wishlist-btn" onclick="adicionarFavorito('${produto.nome}')">❤️</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filtrarProdutos(categoria) {
+            categoriaAtiva = categoria;
+            
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const filtrados = categoria === 'todos' ? produtos : produtos.filter(p => p.categoria === categoria);
+            renderizarProdutos(filtrados);
+        }
+
+        function adicionarCarrinho(nome) {
+            alert(`✅ ${nome} adicionado ao carrinho!`);
+        }
+
+        function adicionarFavorito(nome) {
+            alert(`❤️ ${nome} adicionado aos favoritos!`);
+        }
+
+        // Renderizar produtos ao carregar a página
+        renderizarProdutos(produtos);
+    </script>
+</body>
+</html>
